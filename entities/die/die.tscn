@@ -1,0 +1,41 @@
+[gd_scene load_steps=23 format=3 uid="uid://qcj754i57ijp"]
+
+[ext_resource type="Script" uid="uid://bbvdx81usyfof" path="res://entities/die/Die.cs" id="1_sr677"]
+[ext_resource type="Texture2D" uid="uid://dopdabraxb7yv" path="res://entities/die/animations/d20_white_1.png" id="2_er1w2"]
+[ext_resource type="Texture2D" uid="uid://bhs46l42dtujx" path="res://entities/die/animations/d20_white_2.png" id="3_467om"]
+[ext_resource type="Texture2D" uid="uid://crq6atrfnaoc6" path="res://entities/die/animations/d20_white_3.png" id="4_fqu45"]
+[ext_resource type="Texture2D" uid="uid://bg1hc3fowtgeh" path="res://entities/die/animations/d20_white_4.png" id="5_bfv1g"]
+[ext_resource type="Texture2D" uid="uid://c2e3ikt0xssy5" path="res://entities/die/animations/d20_white_5.png" id="6_vqi1q"]
+[ext_resource type="Texture2D" uid="uid://dvqngwwx6eceh" path="res://entities/die/animations/d20_white_6.png" id="7_nogqv"]
+[ext_resource type="Texture2D" uid="uid://dc2e7enx1sliy" path="res://entities/die/animations/d20_white_7.png" id="8_pymtp"]
+[ext_resource type="Texture2D" uid="uid://ck2ei6l3ujvux" path="res://entities/die/animations/d20_white_8.png" id="9_5yf7v"]
+[ext_resource type="Texture2D" uid="uid://o51go67308q" path="res://entities/die/animations/d20_white_9.png" id="10_fh6qk"]
+[ext_resource type="Texture2D" uid="uid://blq073kr4kbcr" path="res://entities/die/animations/d20_white_10.png" id="11_sk7d5"]
+[ext_resource type="Texture2D" uid="uid://dqdfg711rv0rq" path="res://entities/die/animations/d20_white_11.png" id="12_cc82l"]
+[ext_resource type="Texture2D" uid="uid://rdjkyndkd42x" path="res://entities/die/animations/d20_white_12.png" id="13_i254c"]
+[ext_resource type="Texture2D" uid="uid://dahd1d2sykmxm" path="res://entities/die/animations/d20_white_13.png" id="14_kflav"]
+[ext_resource type="Texture2D" uid="uid://drapu7qox5gkr" path="res://entities/die/animations/d20_white_14.png" id="15_rd1gj"]
+[ext_resource type="Texture2D" uid="uid://11otmlfvhyaa" path="res://entities/die/animations/d20_white_15.png" id="16_8a2a1"]
+[ext_resource type="Texture2D" uid="uid://0pgxrfybq5un" path="res://entities/die/animations/d20_white_16.png" id="17_xbcuq"]
+[ext_resource type="Texture2D" uid="uid://fwm74v66p0dh" path="res://entities/die/animations/d20_white_17.png" id="18_b7b57"]
+[ext_resource type="Texture2D" uid="uid://bpdpukrarh0kx" path="res://entities/die/animations/d20_white_18.png" id="19_fy6gl"]
+[ext_resource type="Texture2D" uid="uid://n5onmxo7hm7y" path="res://entities/die/animations/d20_white_19.png" id="20_yjvc0"]
+[ext_resource type="Texture2D" uid="uid://bgq1f0glqndao" path="res://entities/die/animations/d20_white_20.png" id="21_w2ny4"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_31fro"]
+friction = 0.5
+bounce = 0.3
+
+[node name="Die" type="RigidBody2D"]
+physics_material_override = SubResource("PhysicsMaterial_31fro")
+continuous_cd = 1
+contact_monitor = true
+max_contacts_reported = 4
+script = ExtResource("1_sr677")
+DieTextures = Array[Texture2D]([ExtResource("2_er1w2"), ExtResource("3_467om"), ExtResource("4_fqu45"), ExtResource("5_bfv1g"), ExtResource("6_vqi1q"), ExtResource("7_nogqv"), ExtResource("8_pymtp"), ExtResource("9_5yf7v"), ExtResource("10_fh6qk"), ExtResource("11_sk7d5"), ExtResource("12_cc82l"), ExtResource("13_i254c"), ExtResource("14_kflav"), ExtResource("15_rd1gj"), ExtResource("16_8a2a1"), ExtResource("17_xbcuq"), ExtResource("18_b7b57"), ExtResource("19_fy6gl"), ExtResource("20_yjvc0"), ExtResource("21_w2ny4")])
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_er1w2")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(0, -540, -23, -538, -50, -528, -442, -301, -458, -284, -472, -264, -479, -244, -483, -227, -483, 227, -479, 246, -473, 260, -466, 275, -456, 287, -441, 302, -49, 529, -23, 538, -2, 540, 18, 539, 33, 535, 47, 529, 441, 301, 457, 285, 469, 267, 477, 250, 482, 222, 482, -221, 478, -246, 468, -269, 453, -290, 432, -307, 47, -529, 24, -537)

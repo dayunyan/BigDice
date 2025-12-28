@@ -1,0 +1,124 @@
+[gd_scene load_steps=30 format=3 uid="uid://ctytfq5r0xfm"]
+
+[ext_resource type="Script" uid="uid://cltcjuo7de663" path="res://scenes/main_scene/GameManager.cs" id="1_2cqfw"]
+[ext_resource type="PackedScene" uid="uid://qcj754i57ijp" path="res://entities/die/die.tscn" id="2_kbdpr"]
+[ext_resource type="Script" uid="uid://blkgkpgyxm0si" path="res://scenes/main_scene/DeadZone.cs" id="3_6loks"]
+[ext_resource type="Texture2D" uid="uid://dopdabraxb7yv" path="res://entities/die/animations/d20_white_1.png" id="4_6ycpv"]
+[ext_resource type="Texture2D" uid="uid://bhs46l42dtujx" path="res://entities/die/animations/d20_white_2.png" id="4_i0gdb"]
+[ext_resource type="Texture2D" uid="uid://crq6atrfnaoc6" path="res://entities/die/animations/d20_white_3.png" id="5_4dwww"]
+[ext_resource type="Texture2D" uid="uid://m8fmtn4ji83h" path="res://scenes/main_scene/animations/icons restart.png" id="5_umvci"]
+[ext_resource type="Texture2D" uid="uid://bg1hc3fowtgeh" path="res://entities/die/animations/d20_white_4.png" id="6_xtklx"]
+[ext_resource type="Texture2D" uid="uid://c2e3ikt0xssy5" path="res://entities/die/animations/d20_white_5.png" id="7_nceve"]
+[ext_resource type="Texture2D" uid="uid://dvqngwwx6eceh" path="res://entities/die/animations/d20_white_6.png" id="8_wuij3"]
+[ext_resource type="Texture2D" uid="uid://dc2e7enx1sliy" path="res://entities/die/animations/d20_white_7.png" id="9_scan6"]
+[ext_resource type="Texture2D" uid="uid://ck2ei6l3ujvux" path="res://entities/die/animations/d20_white_8.png" id="10_cm64g"]
+[ext_resource type="Texture2D" uid="uid://o51go67308q" path="res://entities/die/animations/d20_white_9.png" id="11_r37pl"]
+[ext_resource type="Texture2D" uid="uid://blq073kr4kbcr" path="res://entities/die/animations/d20_white_10.png" id="12_sjfcr"]
+[ext_resource type="Texture2D" uid="uid://dqdfg711rv0rq" path="res://entities/die/animations/d20_white_11.png" id="13_bj71x"]
+[ext_resource type="Texture2D" uid="uid://rdjkyndkd42x" path="res://entities/die/animations/d20_white_12.png" id="14_y5h3x"]
+[ext_resource type="Texture2D" uid="uid://dahd1d2sykmxm" path="res://entities/die/animations/d20_white_13.png" id="15_bo5y2"]
+[ext_resource type="Texture2D" uid="uid://drapu7qox5gkr" path="res://entities/die/animations/d20_white_14.png" id="16_nthpl"]
+[ext_resource type="Texture2D" uid="uid://11otmlfvhyaa" path="res://entities/die/animations/d20_white_15.png" id="17_8dvv1"]
+[ext_resource type="Texture2D" uid="uid://0pgxrfybq5un" path="res://entities/die/animations/d20_white_16.png" id="18_w0eu7"]
+[ext_resource type="Texture2D" uid="uid://fwm74v66p0dh" path="res://entities/die/animations/d20_white_17.png" id="19_bc27i"]
+[ext_resource type="Texture2D" uid="uid://bpdpukrarh0kx" path="res://entities/die/animations/d20_white_18.png" id="20_fr7fn"]
+[ext_resource type="Texture2D" uid="uid://n5onmxo7hm7y" path="res://entities/die/animations/d20_white_19.png" id="21_c3uee"]
+[ext_resource type="Texture2D" uid="uid://bgq1f0glqndao" path="res://entities/die/animations/d20_white_20.png" id="22_rv7a5"]
+[ext_resource type="Texture2D" uid="uid://b7ev44rkjohk1" path="res://scenes/main_scene/animations/hills_day.png" id="23_4dwww"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_s5p1y"]
+
+[sub_resource type="Curve" id="Curve_2cqfw"]
+_data = [Vector2(0, 0.011235952), 0.0, 0.0, 0, 0, Vector2(0.63586956, 0.25842702), 0.5168539, 0.5168539, 0, 0, Vector2(0.9891305, 1), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3t4qf"]
+size = Vector2(720, 149)
+
+[sub_resource type="LabelSettings" id="LabelSettings_ugojt"]
+font_size = 76
+font_color = Color(0.9423179, 0.4384189, 0.11815793, 1)
+outline_size = 2
+
+[node name="Main" type="Node2D" node_paths=PackedStringArray("Launcher", "NextDiePreview", "GameOverUI", "RestartButton")]
+script = ExtResource("1_2cqfw")
+DieScene = ExtResource("2_kbdpr")
+Launcher = NodePath("Launcher")
+AllTextures = Array[Texture2D]([ExtResource("4_6ycpv"), ExtResource("4_i0gdb"), ExtResource("5_4dwww"), ExtResource("6_xtklx"), ExtResource("7_nceve"), ExtResource("8_wuij3"), ExtResource("9_scan6"), ExtResource("10_cm64g"), ExtResource("11_r37pl"), ExtResource("12_sjfcr"), ExtResource("13_bj71x"), ExtResource("14_y5h3x"), ExtResource("15_bo5y2"), ExtResource("16_nthpl"), ExtResource("17_8dvv1"), ExtResource("18_w0eu7"), ExtResource("19_bc27i"), ExtResource("20_fr7fn"), ExtResource("21_c3uee"), ExtResource("22_rv7a5")])
+NextDiePreview = NodePath("CanvasLayer/TextureRect")
+GameOverUI = NodePath("CanvasLayer/Panel")
+RestartButton = NodePath("CanvasLayer/Panel/Reload")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(355, 629.5)
+scale = Vector2(0.40729165, 1.2231481)
+texture = ExtResource("23_4dwww")
+
+[node name="WallContainer" type="StaticBody2D" parent="."]
+physics_material_override = SubResource("PhysicsMaterial_s5p1y")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="WallContainer"]
+polygon = PackedVector2Array(0, 0, 2, 0, 2, 1278, 718, 1278, 718, 0, 720, 0, 720, 1280, 0, 1280)
+
+[node name="Launcher" type="Node2D" parent="."]
+position = Vector2(360, 100)
+
+[node name="Line2D" type="Line2D" parent="Launcher"]
+position = Vector2(1, 0)
+points = PackedVector2Array(0, 0, 72, 0)
+width = 5.0
+width_curve = SubResource("Curve_2cqfw")
+default_color = Color(0.50980395, 0.8156863, 1, 1)
+end_cap_mode = 2
+
+[node name="AimLine" type="Line2D" parent="."]
+points = PackedVector2Array(0, 150, 720, 150)
+width = 2.0
+default_color = Color(1, 0, 0, 1)
+sharp_limit = 0.0
+round_precision = 1
+
+[node name="DeadZone" type="Area2D" parent="."]
+script = ExtResource("3_6loks")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DeadZone"]
+position = Vector2(360, 74.5)
+shape = SubResource("RectangleShape2D_3t4qf")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
+offset_left = 630.0
+offset_top = 26.0
+offset_right = 670.0
+offset_bottom = 66.0
+texture = ExtResource("4_6ycpv")
+expand_mode = 2
+
+[node name="Panel" type="Panel" parent="CanvasLayer"]
+visible = false
+offset_right = 722.0
+offset_bottom = 1281.0
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Panel"]
+layout_mode = 0
+offset_left = 206.0
+offset_top = 317.0
+offset_right = 513.0
+offset_bottom = 400.0
+text = "游戏结束"
+label_settings = SubResource("LabelSettings_ugojt")
+
+[node name="Reload" type="Button" parent="CanvasLayer/Panel"]
+process_mode = 3
+layout_mode = 0
+offset_left = 301.0
+offset_top = 455.0
+offset_right = 429.0
+offset_bottom = 583.0
+scale = Vector2(0.78431374, 0.7714286)
+icon = ExtResource("5_umvci")
+expand_icon = true
+
+[connection signal="GameOver" from="DeadZone" to="." method="OnGameOver"]

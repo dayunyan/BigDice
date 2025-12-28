@@ -1,0 +1,12 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+
+exported/
+export_presets.cfg.bak
+
+.vscode/
+.idea/
+*.swp
+
+.history/
