@@ -1,0 +1,40 @@
+[gd_scene load_steps=7 format=3 uid="uid://bqh8pqolyxvhj"]
+
+[ext_resource type="Script" uid="uid://b26o4gxu55jx" path="res://scenes/effect/Explosion.cs" id="1_15puo"]
+
+[sub_resource type="Gradient" id="Gradient_lesul"]
+offsets = PackedFloat32Array(0, 0.6066667)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_n15he"]
+gradient = SubResource("Gradient_lesul")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 1)
+
+[sub_resource type="Curve" id="Curve_nryj6"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_efxwe"]
+curve = SubResource("Curve_nryj6")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_dp3mh"]
+particle_flag_disable_z = true
+direction = Vector3(0, 0, 0)
+spread = 180.0
+initial_velocity_min = 150.0
+initial_velocity_max = 250.0
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_efxwe")
+
+[node name="Explosion" type="GPUParticles2D"]
+z_index = 10
+emitting = false
+amount = 15
+texture = SubResource("GradientTexture2D_n15he")
+lifetime = 0.6
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_dp3mh")
+script = ExtResource("1_15puo")

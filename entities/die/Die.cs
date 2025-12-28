@@ -12,6 +12,8 @@ public partial class Die : RigidBody2D
 
     private Sprite2D _sprite;
     private CollisionPolygon2D _collider;
+    // 标记是否正在被销毁，防止多次触发合并
+    private bool _isDespawning = false;
 
     // 定义20种颜色 (Hex代码)
     // 顺序：红->橙->黄->绿->青->蓝->紫->粉->深色/特殊色
@@ -48,8 +50,6 @@ public partial class Die : RigidBody2D
         ContactMonitor = true; 
         MaxContactsReported = 4;
         BodyEntered += OnBodyEntered;
-        
-        UpdateVisuals();
     }
 
     // 初始化方法
@@ -60,6 +60,45 @@ public partial class Die : RigidBody2D
         DieTextures = textures; // 传递纹理引用
 
         UpdateVisuals(); 
+    }
+
+    // --- 新增：专门用于合成后的新球入场动画 ---
+    public void PlaySpawnAnimation()
+    {
+        // 1. 获取目标大小（UpdateVisuals 已经算好了赋值给 Sprite 了）
+        Vector2 targetScale = _sprite.Scale;
+
+        // 2. 先把视觉设为 0
+        _sprite.Scale = Vector2.Zero;
+
+        // 3. 创建 Tween 动画
+        Tween tween = CreateTween();
+        // 使用 Elastic (弹性) 或 Back (回弹) 效果，让它看起来像“蹦”出来的
+        tween.TweenProperty(_sprite, "scale", targetScale, 0.4f)
+             .SetTrans(Tween.TransitionType.Back)
+             .SetEase(Tween.EaseType.Out);
+    }
+
+    // --- 新增：旧球的退场动画 ---
+    public void AnimateDespawn()
+    {
+        if (_isDespawning) return;
+        _isDespawning = true;
+
+        // 1. 立即禁用物理碰撞，防止它干扰新生成的球
+        // 必须使用 SetDeferred，因为在物理回调中不能直接改变物理状态
+        _collider.SetDeferred("disabled", true);
+        SetDeferred("freeze", true); // 冻结位置
+
+        // 2. 创建收缩动画
+        Tween tween = CreateTween();
+        // 在 0.15秒内 缩放到 0
+        tween.TweenProperty(this, "scale", Vector2.Zero, 0.15f)
+             .SetTrans(Tween.TransitionType.Quad)
+             .SetEase(Tween.EaseType.Out);
+
+        // 3. 动画结束后销毁
+        tween.TweenCallback(Callable.From(QueueFree));
     }
 
     private void UpdateVisuals()
@@ -100,6 +139,8 @@ public partial class Die : RigidBody2D
 
     private void OnBodyEntered(Node body)
     {
+        if (_isDespawning) return; // 如果正在销毁，不处理碰撞
+
         // 1. 确保撞到的是另一个 Die
         if (body is Die otherDie)
         {
@@ -128,7 +169,7 @@ public partial class Die : RigidBody2D
         GetTree().CallGroup("GameManager", "SpawnMergedDie", nextLevel, centerPos);
 
         // 销毁旧球
-        otherDie.QueueFree();
-        QueueFree();
+        otherDie.AnimateDespawn();
+        this.AnimateDespawn();
     }
 }

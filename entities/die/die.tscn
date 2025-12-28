@@ -24,7 +24,7 @@
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_31fro"]
 friction = 0.5
-bounce = 0.3
+bounce = 0.15
 
 [node name="Die" type="RigidBody2D"]
 physics_material_override = SubResource("PhysicsMaterial_31fro")

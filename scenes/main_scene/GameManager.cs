@@ -9,6 +9,8 @@ public partial class GameManager : Node2D
     [Export] public TextureRect NextDiePreview; 
     [Export] public Control GameOverUI;   
     [Export] public Button RestartButton;
+    [Export] public PackedScene ExplosionScene;
+    [Export] public Label ScoreLabel;
 
     private int _nextLevel = 0;
     private bool _canShoot = true;
@@ -38,6 +40,7 @@ public partial class GameManager : Node2D
     
     // 用来记录上一帧鼠标是否按下的状态
     private bool _isMouseDown = false;
+    private int _score = 0;
 
     public override void _Ready()
     {
@@ -58,6 +61,9 @@ public partial class GameManager : Node2D
         {
             RestartButton.Pressed += OnRestartPressed;
         }
+
+        _score = 0;
+        UpdateScore(0);
     }
 
     public override void _Process(double delta)
@@ -122,6 +128,16 @@ public partial class GameManager : Node2D
         }
     }
 
+    // 新增更新分数的方法
+    private void UpdateScore(int addedPoints)
+    {
+        _score += addedPoints;
+        if (ScoreLabel != null)
+        {
+            ScoreLabel.Text = $"Score: {_score}";
+        }
+    }
+
     public void SpawnMergedDie(int level, Vector2 pos)
     {
         var die = DieScene.Instantiate<Die>();
@@ -129,9 +145,38 @@ public partial class GameManager : Node2D
         GetTree().CurrentScene.CallDeferred("add_child", die);
         
         die.Setup(level, pos, AllTextures);
+
+        // --- 新增：播放入场动画 ---
+        die.CallDeferred("PlaySpawnAnimation"); 
         
         Vector2 randomImpulse = new Vector2((float)GD.RandRange(-1, 1), (float)GD.RandRange(-1, 1)).Normalized() * 200;
         die.CallDeferred("apply_impulse", randomImpulse);
+        
+        // 生成粒子特效 (新增逻辑)
+        if (ExplosionScene != null)
+        {
+            var explosion = ExplosionScene.Instantiate<GpuParticles2D>();
+            explosion.GlobalPosition = pos;
+            
+            // 设置粒子颜色与新球颜色一致
+            // 注意：这里用 level 可能会越界，因为合成出来的是 level (比如 0+0=1级)
+            // 但我们想展示的是合成后的颜色，所以用 level 对应的颜色
+            if (level < _dieColors.Length)
+            {
+                explosion.Modulate = _dieColors[level];
+            }
+            // --- 关键优化：设置 ZIndex 防止被遮挡 ---
+            explosion.ZIndex = 10; // 确保它画在所有骰子(默认Z=0)上面
+            
+            // 添加到场景
+            GetTree().CurrentScene.AddChild(explosion);
+        }
+
+        // 计分逻辑：合成出 level 级的球，得多少分？
+        // 假设：合成出1级球得10分，2级球得20分...
+        // level 此时已经是合成后的等级了
+        int points = (level + 1) * 10; 
+        UpdateScore(points);
     }
 
     public void OnGameOver()

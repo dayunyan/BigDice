@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://ctytfq5r0xfm"]
+[gd_scene load_steps=32 format=3 uid="uid://ctytfq5r0xfm"]
 
 [ext_resource type="Script" uid="uid://cltcjuo7de663" path="res://scenes/main_scene/GameManager.cs" id="1_2cqfw"]
 [ext_resource type="PackedScene" uid="uid://qcj754i57ijp" path="res://entities/die/die.tscn" id="2_kbdpr"]
@@ -25,6 +25,7 @@
 [ext_resource type="Texture2D" uid="uid://n5onmxo7hm7y" path="res://entities/die/animations/d20_white_19.png" id="21_c3uee"]
 [ext_resource type="Texture2D" uid="uid://bgq1f0glqndao" path="res://entities/die/animations/d20_white_20.png" id="22_rv7a5"]
 [ext_resource type="Texture2D" uid="uid://b7ev44rkjohk1" path="res://scenes/main_scene/animations/hills_day.png" id="23_4dwww"]
+[ext_resource type="PackedScene" uid="uid://bqh8pqolyxvhj" path="res://scenes/effect/explosion.tscn" id="23_xtklx"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_s5p1y"]
 
@@ -40,7 +41,10 @@ font_size = 76
 font_color = Color(0.9423179, 0.4384189, 0.11815793, 1)
 outline_size = 2
 
-[node name="Main" type="Node2D" node_paths=PackedStringArray("Launcher", "NextDiePreview", "GameOverUI", "RestartButton")]
+[sub_resource type="LabelSettings" id="LabelSettings_nceve"]
+font_size = 24
+
+[node name="Main" type="Node2D" node_paths=PackedStringArray("Launcher", "NextDiePreview", "GameOverUI", "RestartButton", "ScoreLabel")]
 script = ExtResource("1_2cqfw")
 DieScene = ExtResource("2_kbdpr")
 Launcher = NodePath("Launcher")
@@ -48,17 +52,26 @@ AllTextures = Array[Texture2D]([ExtResource("4_6ycpv"), ExtResource("4_i0gdb"), 
 NextDiePreview = NodePath("CanvasLayer/TextureRect")
 GameOverUI = NodePath("CanvasLayer/Panel")
 RestartButton = NodePath("CanvasLayer/Panel/Reload")
+ExplosionScene = ExtResource("23_xtklx")
+ScoreLabel = NodePath("CanvasLayer/Panel2/ScoreLabel")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(355, 629.5)
-scale = Vector2(0.40729165, 1.2231481)
+[node name="Background" type="CanvasLayer" parent="."]
+layer = -100
+
+[node name="TextureRect" type="TextureRect" parent="Background"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("23_4dwww")
+stretch_mode = 6
 
 [node name="WallContainer" type="StaticBody2D" parent="."]
 physics_material_override = SubResource("PhysicsMaterial_s5p1y")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="WallContainer"]
-polygon = PackedVector2Array(0, 0, 2, 0, 2, 1278, 718, 1278, 718, 0, 720, 0, 720, 1280, 0, 1280)
+polygon = PackedVector2Array(0, -720, 2, -720, 2, 1278, 718, 1278, 718, -720, 720, -720, 720, 1280, 0, 1280)
 
 [node name="Launcher" type="Node2D" parent="."]
 position = Vector2(360, 100)
@@ -96,12 +109,11 @@ texture = ExtResource("4_6ycpv")
 expand_mode = 2
 
 [node name="Panel" type="Panel" parent="CanvasLayer"]
-visible = false
 offset_right = 722.0
 offset_bottom = 1281.0
 mouse_filter = 2
 
-[node name="Label" type="Label" parent="CanvasLayer/Panel"]
+[node name="Gameover" type="Label" parent="CanvasLayer/Panel"]
 layout_mode = 0
 offset_left = 206.0
 offset_top = 317.0
@@ -120,5 +132,18 @@ offset_bottom = 583.0
 scale = Vector2(0.78431374, 0.7714286)
 icon = ExtResource("5_umvci")
 expand_icon = true
+
+[node name="Panel2" type="Panel" parent="CanvasLayer"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ScoreLabel" type="Label" parent="CanvasLayer/Panel2"]
+layout_mode = 0
+offset_left = 19.0
+offset_top = 19.0
+offset_right = 110.0
+offset_bottom = 53.0
+text = "Score: 0"
+label_settings = SubResource("LabelSettings_nceve")
 
 [connection signal="GameOver" from="DeadZone" to="." method="OnGameOver"]
